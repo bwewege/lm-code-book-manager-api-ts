@@ -38,12 +38,13 @@ export const updateBook = async (req: Request, res: Response) => {
 
 // User Story 5 - Delete Book using it's ID
 export const deleteBook = async (req: Request, res: Response) => {
-	const bookId = Number.parseInt(req.params.bookId);
+	const bookId = Number(req.params.bookId);
+	const book = await bookService.getBook(bookId);
 
-	try {
+	if (!book) {
+		res.status(404).json("Not found");
+	} else {
 		await bookService.deleteBook(bookId);
-		res.sendStatus(204);
-	} catch (error) {
-		res.status(500).json({ message: (error as Error).message });
+		res.status(204);
 	}
 };
