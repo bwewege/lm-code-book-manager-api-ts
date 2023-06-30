@@ -133,3 +133,13 @@ describe("POST /api/v1/books endpoint", () => {
 		expect(res.statusCode).toEqual(400);
 	});
 });
+
+// describe("DELETE /api/books/:bookId", () => {
+// 	it("should delete the book with the given bookId", async () => {
+// 		const bookId = "2"; // Specify the book ID to be deleted
+
+// 		await request(app).delete(`/api/books/${bookId}`).expect(204);
+
+// 		expect(bookService.deleteBook).toHaveBeenCalledWith(2);
+// 	});
+// });
