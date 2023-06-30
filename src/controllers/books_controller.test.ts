@@ -134,12 +134,28 @@ describe("POST /api/v1/books endpoint", () => {
 	});
 });
 
-// describe("DELETE /api/books/:bookId", () => {
-// 	it("should delete the book with the given bookId", async () => {
-// 		const bookId = "2"; // Specify the book ID to be deleted
+describe("DELETE /api/books/:bookId", () => {
+	test("should delete the book with the given bookId return status code 204", async () => {
+		// Arrange
+		jest
+			.spyOn(bookService, "getBook")
+			.mockResolvedValue(dummyBookData[0] as Book);
+		jest.spyOn(bookService, "deleteBook");
 
-// 		await request(app).delete(`/api/books/${bookId}`).expect(204);
+		const res = await request(app).delete("/api/v1/books/1");
 
-// 		expect(bookService.deleteBook).toHaveBeenCalledWith(2);
-// 	});
-// });
+		expect(res.statusCode).toEqual(204);
+	});
+	test("try delete a book that does not exist return status code 404", async () => {
+		// Arrange
+		jest
+			.spyOn(bookService, "getBook")
+			.mockResolvedValue(undefined as unknown as Book);
+
+		// Act
+		const res = await request(app).delete("/api/v1/books/1");
+
+		// Assert
+		expect(res.statusCode).toEqual(404);
+	});
+});
